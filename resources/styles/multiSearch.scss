@@ -1,0 +1,27 @@
+@import './colors', './typography';
+
+$res-folder: '../icons';
+
+$form-component-margin-bottom: 20px;
+$form-input-min-width: 100px;
+$form-select-arrow-width: 20px;
+
+body {
+    font-family: $font-stack;
+    font-size: $default-font-size;
+}
+
+button.primary {
+    background-color: $primary-button-color;
+    color: $primary-button-text-color;
+    padding: 5px 10px;
+    font-size: $button-font-size;
+    border-radius: 5px;
+    outline: none;
+    height: 35px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
