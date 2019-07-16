@@ -1,6 +1,6 @@
 {
   "name": "multi-search-bar",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Build React based multi search bar",
   "main": "/dist/multi-search-bar.bundle.js",
   "scripts": {
