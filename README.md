@@ -27,7 +27,6 @@ This component is using configurable-form-builder too.
      <MultiSearchBar
               handleSearch={callback}
               options={options}
-              allowBlankBasicSearch={true}
               advancedSearchAttributes={FORM_CONFIG}
               handleSelectedChange={this.onSelectedChange}/>
 ```
