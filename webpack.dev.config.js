@@ -8,7 +8,7 @@ module.exports = merge(core, {
     mode: 'development',
     devtool: 'eval-source-map',
     entry: {
-        'configurable-form-builder': './dev/src/index.js'
+        'multi-search-bar': './dev/src/index.js'
     },
     output: {
         filename: '[name].bundle.js',
@@ -28,7 +28,7 @@ module.exports = merge(core, {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            title: 'Configurable Form Builder - Demo',
+            title: 'Multi Search Bar - Demo',
             template: './index_template.html',
             filename: 'index.html'
         }),

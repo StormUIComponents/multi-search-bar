@@ -37,7 +37,10 @@ options | Array | NO | dropdown list fields, if not available, dropdown will be 
 allowBlankBasicSearch | Boolean|NO| If you set to true, if the textbox is empty still can search | false
 advancedSearchAttributes | Obj | NO | for form, if not available, there won't be advanced search button | N/A
 handleSelectedChange |Function|NO| when dropdown is changed, this will trigger| N/A
-
+defaultSearch| string | NO| the search which will be shown when opening the page (BASIC,ADVANCED) | BASIC
+basicSearch| boolean | NO | you can specify false if you do not want to have basic search at all | true
+advancedSearch | boolean | NO | You can specify false if you do not want advanced search at all | true
+ 
 
 Example of form config:
 ```

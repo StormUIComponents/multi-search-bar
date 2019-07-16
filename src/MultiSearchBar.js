@@ -130,7 +130,6 @@ let {basicSearch, advancedSearch,advancedSearchAttributes} = this.props;
 
 
 MultiSearchBar.propTypes = {
-  completeCallback: PropTypes.func,
   handleSearch: PropTypes.func,
   options: PropTypes.arrayOf(
     PropTypes.shape({
@@ -143,11 +142,15 @@ MultiSearchBar.propTypes = {
   advancedSearch: PropTypes.boolean,
   basicSearch: PropTypes.boolean,
   allowBlankBasicSearch: PropTypes.boolean, // optional won't do anything if not defined.
-  advancedSearchAttributes: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      type: PropTypes.string,
-      label: PropTypes.string
-    })
-  )
+  advancedSearchAttributes: PropTypes.shape({
+    breakpoints: PropTypes.object,
+    primaryButtonText: PropTypes.string,
+    fields: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string,
+        type: PropTypes.string,
+        label: PropTypes.string
+      })
+    )
+  })
 };
