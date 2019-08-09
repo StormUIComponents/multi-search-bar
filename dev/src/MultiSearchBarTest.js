@@ -14,12 +14,14 @@ class MultiSearchBarTest extends Component {
         selected: [],
         options: OPTIONS_CONFIG,
         searched: "",
-        advancedSearchAttrs: []
+        advancedSearchAttrs: [],
+        type: ""
       };
     }
 
-  onHandleSearch = value => {
+  onHandleSearch = (value, type) => {
     this.setState({searched: JSON.stringify(value)});
+    this.setState({type: type})
   };
   onSelectedChange = selected => {
     this.setState({selected: selected});
@@ -38,6 +40,8 @@ class MultiSearchBarTest extends Component {
             {this.state.searched}
             <h2>Selected Options:</h2>
             {JSON.stringify(this.state.selected)}
+            <br /> <h2> Search Type:</h2>
+            {JSON.stringify(this.state.type)}
           </span>
         );
     }

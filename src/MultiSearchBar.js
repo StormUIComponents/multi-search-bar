@@ -43,7 +43,7 @@ export default class MultiSearchBar extends Component {
   }
 
   onHandleSearch = value => {
-   this.props.handleSearch(value);
+   this.props.handleSearch(value, this.state.type);
   };
 
   onHandleSelectedChanged = selected => {
