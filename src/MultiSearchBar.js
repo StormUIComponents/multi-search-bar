@@ -17,17 +17,18 @@ import {
 import "../resources/styles/multiSearch.scss";
 
 export default class MultiSearchBar extends Component {
-
   constructor(props) {
     super(props);
     this.toggleSearchType = this.toggleSearchType.bind(this);
-    let {defaultSearch,advancedSearch, basicSearch} = this.props;
+    let { defaultSearch, advancedSearch, basicSearch } = this.props;
 
-    if ((!defaultSearch || defaultSearch === BASIC)
-      && (basicSearch || (basicSearch === undefined && advancedSearch === undefined)
+    if (
+      (!defaultSearch || defaultSearch === BASIC) &&
+      (basicSearch ||
+        (basicSearch === undefined && advancedSearch === undefined) ||
         // if default is not set, default to basic if both options are undefined or basic search is set
-      || (!basicSearch && !advancedSearch)) // if by mistake both advanced and basic are off, will default to basic
-        ) {
+        (!basicSearch && !advancedSearch)) // if by mistake both advanced and basic are off, will default to basic
+    ) {
       this.state = {
         selected: [],
         label: BASIC_SEARCH.toggleLabel,
@@ -43,32 +44,36 @@ export default class MultiSearchBar extends Component {
   }
 
   onHandleSearch = value => {
-   this.props.handleSearch(value, this.state.type);
+    this.props.handleSearch(value, this.state.type);
   };
 
   onHandleSelectedChanged = selected => {
-    this.setState({selected});
+    this.setState({ selected });
     this.props.handleSelectedChange(selected);
-  }
+  };
   toggleSearchType() {
     if (this.state.type === BASIC) {
       this.setState({
-          label: BASIC_SEARCH.label,
-          type: ADVANCED_SEARCH.type
-        }
-      );
+        label: BASIC_SEARCH.label,
+        type: ADVANCED_SEARCH.type
+      });
     } else {
       this.setState({
-          label: ADVANCED_SEARCH.label,
-          type: BASIC_SEARCH.type
-        }
-      );
+        label: ADVANCED_SEARCH.label,
+        type: BASIC_SEARCH.type
+      });
     }
   }
   getSearchComponent() {
-    let {allowBlankBasicSearch, advancedSearchAttributes} = this.props;
+    let { allowBlankBasicSearch, advancedSearchAttributes } = this.props;
     if (this.state.type === BASIC) {
-      return ( <SearchBar handleSearch={this.onHandleSearch} theme={THEME} allowBlankBasicSearch={allowBlankBasicSearch}/>);
+      return (
+        <SearchBar
+          handleSearch={this.onHandleSearch}
+          theme={THEME}
+          allowBlankBasicSearch={allowBlankBasicSearch}
+        />
+      );
     } else {
       return (
         <ConfigurableForm
@@ -82,52 +87,47 @@ export default class MultiSearchBar extends Component {
     }
   }
   loadToggleButton() {
-let {basicSearch, advancedSearch,advancedSearchAttributes} = this.props;
-    if ((basicSearch === undefined && advancedSearch=== undefined && advancedSearchAttributes!== undefined) ||
-      (advancedSearch && basicSearch))
-    {
+    let { basicSearch, advancedSearch, advancedSearchAttributes } = this.props;
+    if (
+      (basicSearch === undefined &&
+        advancedSearch === undefined &&
+        advancedSearchAttributes !== undefined) ||
+      (advancedSearch && basicSearch)
+    ) {
       return (
         <button
-        type="button"
-        className="primary toggle-button"
-        onClick={this.toggleSearchType}
-      >
-        {this.state.label}
-      </button>);
+          type="button"
+          className="primary toggle-button"
+          onClick={this.toggleSearchType}
+        >
+          {this.state.label}
+        </button>
+      );
     }
   }
 
   loadOptions() {
-    let {options} = this.props;
-    if(options)
-    return (
-
-      <MultiSelect
-        options={options}
-        selected={this.state.selected}
-        onSelectedChanged={this.onHandleSelectedChanged}
-      />
-    )
+    let { options } = this.props;
+    if (options)
+      return (
+        <MultiSelect
+          options={options}
+          selected={this.state.selected}
+          onSelectedChanged={this.onHandleSelectedChanged}
+        />
+      );
   }
   render() {
-
-
-
-
-// the third party needs both options and selected
+    // the third party needs both options and selected
     return (
       <span>
-        <div className="search-drop">
-        {this.loadOptions()}
-
-        </div>
+        <div className="search-drop">{this.loadOptions()}</div>
         {this.getSearchComponent()}
         {this.loadToggleButton()}
       </span>
     );
   }
 }
-
 
 MultiSearchBar.propTypes = {
   handleSearch: PropTypes.func,
@@ -139,9 +139,9 @@ MultiSearchBar.propTypes = {
   ),
   handleSelectedChange: PropTypes.func,
   defaultSearch: PropTypes.oneOf([BASIC, ADVANCED]),
-  advancedSearch: PropTypes.boolean,
-  basicSearch: PropTypes.boolean,
-  allowBlankBasicSearch: PropTypes.boolean, // optional won't do anything if not defined.
+  advancedSearch: PropTypes.bool,
+  basicSearch: PropTypes.bool,
+  allowBlankBasicSearch: PropTypes.bool, // optional won't do anything if not defined.
   advancedSearchAttributes: PropTypes.shape({
     breakpoints: PropTypes.object,
     primaryButtonText: PropTypes.string,

@@ -17,7 +17,10 @@ export default class SearchBar extends Component {
   }
 
   handleSearch() {
-    if ((this.props.handleSearch && this.state.searchText.trim())|| this.props.allowBlankBasicSearch) {
+    if (
+      (this.props.handleSearch && this.state.searchText.trim()) ||
+      this.props.allowBlankBasicSearch
+    ) {
       this.props.handleSearch(this.state.searchText);
     }
     this.clearSearchBox();
@@ -70,11 +73,7 @@ export default class SearchBar extends Component {
           {" "}
           x{" "}
         </button>
-        <button
-          type="button"
-          className="primary"
-          onClick={this.handleSearch}
-        >
+        <button type="button" className="primary" onClick={this.handleSearch}>
           Search
         </button>
       </span>
@@ -82,9 +81,8 @@ export default class SearchBar extends Component {
   }
 }
 
-
 SearchBar.propTypes = {
   theme: PropTypes.string.isRequired,
   handleSearch: PropTypes.func,
-  allowBlankBasicSearch: PropTypes.boolean
+  allowBlankBasicSearch: PropTypes.bool
 };
