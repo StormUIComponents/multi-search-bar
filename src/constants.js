@@ -1,7 +1,5 @@
-export const THEME = "multi-search-box";
 export const BASIC = "BASIC";
 export const ADVANCED = "ADVANCED";
-
 
 export const BASIC_SEARCH = {
   label: "Basic Search",
@@ -15,4 +13,5 @@ export const ADVANCED_SEARCH = {
   toggleLabel: "Basic Search"
 };
 
-export const NO_SEARCH_ATTRS = "No searchable attributes for selected entity types";
+export const NO_SEARCH_ATTRS =
+  "No searchable attributes for selected entity types";

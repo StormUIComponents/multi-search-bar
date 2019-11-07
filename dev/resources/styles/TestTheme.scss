@@ -1,0 +1,48 @@
+/** put theming styles in here for testing **/
+@import './themeColors', './themeTypography';
+
+$res-folder: '../icons';
+
+$form-component-margin-bottom: 20px;
+$form-input-min-width: 100px;
+$form-select-arrow-width: 20px;
+
+.multiSearchBar-configurableFormBuilder form button.multiSearchBar-primary {
+    background-color: $primary-button-color;
+    color: $primary-button-text-color;
+    padding: 5px 10px;
+    font-size: $button-font-size;
+    border-radius: 5px;
+    outline: none;
+    height: 35px;
+}
+
+.multiSearchBar-configurableFormBuilder select {
+    padding: 10px 10px;
+}
+.multiSearchBar-configurableFormBuilder input[type=text] {
+	margin-right: 5px;
+	height: 35px;
+	border-color: #eeeeee;
+	border-radius: 5px;
+	vertical-align: top
+}
+
+.multiSearchBar-configurableFormBuilder select {
+    -webkit-appearance: none;
+    -moz-appearance:none;
+    -ms-appearance:none;
+    appearance:none;
+    margin-bottom: $form-component-margin-bottom;
+    width: calc(85% + 20px);
+    min-width: $form-input-min-width + $form-select-arrow-width;
+    border-radius: 5px;
+    padding: 6px 10px;
+    background-color: white;
+    background-image: url($res-folder + '/drop-down-arrow.svg');
+    background-repeat: no-repeat, repeat;
+    background-position: right .7em top 50%, 0 0;
+    background-size: 10px;
+    outline: none;
+    min-height: 47px;
+}

@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { PropTypes } from "prop-types";
+import { composeThemeFromProps } from "@css-modules-theme/react";
 
-import "./style.css";
+import buildThemingProps from "./ThemeUtils";
+import multiSearchStyles from "../resources/styles/multiSearch.scss";
 
 export default class SearchBar extends Component {
   constructor(props) {
@@ -48,10 +50,22 @@ export default class SearchBar extends Component {
   }
 
   render() {
-    let { theme } = this.props;
+    const { theme, themeProps } = this.props;
+    const themeProperties = buildThemingProps(theme, themeProps);
+    const composedTheme = composeThemeFromProps(
+      multiSearchStyles,
+      themeProperties,
+      {
+        compose: "Merge"
+      }
+    );
+
     let { searchText } = this.state;
-    let display = this.state.clearDisplay ? "clear-show" : "clear-hidden";
+    let display = this.state.clearDisplay
+      ? composedTheme.clearShow
+      : composedTheme.clearHidden;
     const placeholder = "Search...";
+
     return (
       <span>
         <input
@@ -62,18 +76,22 @@ export default class SearchBar extends Component {
             if (e.key === "Enter")
               this.handleSearchBarClick(e.target.value.trim());
           }}
-          className={theme}
+          className={composedTheme.multiSearchBox}
           placeholder={placeholder}
         />
         <button
-          className={"close-icon " + display}
+          className={`${composedTheme.closeIcon} ${display}`}
           type="reset"
           onClick={this.clearSearchBox}
         >
           {" "}
           x{" "}
         </button>
-        <button type="button" className="primary" onClick={this.handleSearch}>
+        <button
+          type="button"
+          className={composedTheme.primary}
+          onClick={this.handleSearch}
+        >
           Search
         </button>
       </span>
@@ -82,7 +100,19 @@ export default class SearchBar extends Component {
 }
 
 SearchBar.propTypes = {
-  theme: PropTypes.string.isRequired,
   handleSearch: PropTypes.func,
-  allowBlankBasicSearch: PropTypes.bool
+  allowBlankBasicSearch: PropTypes.bool,
+  theme: PropTypes.object,
+  themeProps: PropTypes.shape({
+    compose: PropTypes.string,
+    prefix: PropTypes.string
+  })
+};
+
+SearchBar.defaultProps = {
+  theme: {},
+  themeProps: {
+    prefix: "multiSearchBar",
+    compose: "merge"
+  }
 };
