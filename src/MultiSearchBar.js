@@ -1,20 +1,21 @@
 import React, { Component } from "react";
 import { PropTypes } from "prop-types";
+import { composeThemeFromProps } from "@css-modules-theme/react";
 
 import MultiSelect from "@khanacademy/react-multi-select";
 import ConfigurableForm from "configurable-form-builder";
 import SearchBar from "./SearchBar";
-import "./style.css";
+import buildThemingProps from "./ThemeUtils";
 
 import {
-  THEME,
   BASIC,
   ADVANCED,
   BASIC_SEARCH,
   ADVANCED_SEARCH,
   NO_SEARCH_ATTRS
 } from "./constants";
-import "../resources/styles/multiSearch.scss";
+
+import multiSearchStyles from "../resources/styles/multiSearch.scss";
 
 export default class MultiSearchBar extends Component {
   constructor(props) {
@@ -64,14 +65,15 @@ export default class MultiSearchBar extends Component {
       });
     }
   }
-  getSearchComponent() {
+  getSearchComponent(theme, themeProps, themeProperties) {
     let { allowBlankBasicSearch, advancedSearchAttributes } = this.props;
     if (this.state.type === BASIC) {
       return (
         <SearchBar
           handleSearch={this.onHandleSearch}
-          theme={THEME}
           allowBlankBasicSearch={allowBlankBasicSearch}
+          theme={theme}
+          themeProps={themeProps}
         />
       );
     } else {
@@ -82,11 +84,13 @@ export default class MultiSearchBar extends Component {
           primaryButtonText={advancedSearchAttributes.primaryButtonText}
           primaryButtonCallback={this.onHandleSearch}
           noAttrText={NO_SEARCH_ATTRS}
+          theme={theme}
+          {...themeProperties}
         />
       );
     }
   }
-  loadToggleButton() {
+  loadToggleButton(theme) {
     let { basicSearch, advancedSearch, advancedSearchAttributes } = this.props;
     if (
       (basicSearch === undefined &&
@@ -97,7 +101,7 @@ export default class MultiSearchBar extends Component {
       return (
         <button
           type="button"
-          className="primary toggle-button"
+          className={`${theme.primary} ${theme.toggleButton}`}
           onClick={this.toggleSearchType}
         >
           {this.state.label}
@@ -118,12 +122,22 @@ export default class MultiSearchBar extends Component {
       );
   }
   render() {
+    const { theme, themeProps } = this.props;
+    const themeProperties = buildThemingProps(theme, themeProps);
+    const composedTheme = composeThemeFromProps(
+      multiSearchStyles,
+      themeProperties,
+      {
+        compose: "Merge"
+      }
+    );
+
     // the third party needs both options and selected
     return (
       <span>
-        <div className="search-drop">{this.loadOptions()}</div>
-        {this.getSearchComponent()}
-        {this.loadToggleButton()}
+        <div className={composedTheme.searchDrop}>{this.loadOptions()}</div>
+        {this.getSearchComponent(theme, themeProps, themeProperties)}
+        {this.loadToggleButton(composedTheme)}
       </span>
     );
   }
@@ -152,5 +166,18 @@ MultiSearchBar.propTypes = {
         label: PropTypes.string
       })
     )
+  }),
+  theme: PropTypes.object,
+  themeProps: PropTypes.shape({
+    prefix: PropTypes.string,
+    compose: PropTypes.string
   })
+};
+
+MultiSearchBar.defaultProps = {
+  theme: {},
+  themeProps: {
+    prefix: "multiSearchBar",
+    compose: "merge"
+  }
 };

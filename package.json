@@ -1,6 +1,6 @@
 {
   "name": "multi-search-bar",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Build React based multi search bar",
   "main": "/dist/multi-search-bar.bundle.js",
   "scripts": {
@@ -79,8 +79,9 @@
     "webpack-merge": "^4.2.1"
   },
   "dependencies": {
+    "@css-modules-theme/react": "^2.2.0",
     "@khanacademy/react-multi-select": "^0.3.3",
-    "configurable-form-builder": "^1.4.1",
+    "configurable-form-builder": "^2.0.1",
     "node-sass": "^4.12.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
