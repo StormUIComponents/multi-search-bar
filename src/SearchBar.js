@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { PropTypes } from "prop-types";
 import { composeThemeFromProps } from "@css-modules-theme/react";
 
+import { SEARCH_LABEL, SEARCH_PLACEHOLDER } from "./constants";
 import buildThemingProps from "./ThemeUtils";
 import multiSearchStyles from "../resources/styles/multiSearch.scss";
 
@@ -60,11 +61,11 @@ export default class SearchBar extends Component {
       }
     );
 
+    const { searchPlaceholder, searchLabel } = this.props.messages;
     let { searchText } = this.state;
     let display = this.state.clearDisplay
       ? composedTheme.clearShow
       : composedTheme.clearHidden;
-    const placeholder = "Search...";
 
     return (
       <span>
@@ -77,7 +78,7 @@ export default class SearchBar extends Component {
               this.handleSearchBarClick(e.target.value.trim());
           }}
           className={composedTheme.multiSearchBox}
-          placeholder={placeholder}
+          placeholder={searchPlaceholder}
         />
         <button
           className={`${composedTheme.closeIcon} ${display}`}
@@ -92,7 +93,7 @@ export default class SearchBar extends Component {
           className={composedTheme.primary}
           onClick={this.handleSearch}
         >
-          Search
+          {searchLabel}
         </button>
       </span>
     );
@@ -106,6 +107,10 @@ SearchBar.propTypes = {
   themeProps: PropTypes.shape({
     compose: PropTypes.string,
     prefix: PropTypes.string
+  }),
+  messages: PropTypes.shape({
+    searchPlaceholder: PropTypes.string.isRequired,
+    searchLabel: PropTypes.string.isRequired
   })
 };
 
@@ -114,5 +119,9 @@ SearchBar.defaultProps = {
   themeProps: {
     prefix: "multiSearchBar",
     compose: "merge"
+  },
+  messages: {
+    searchPlaceholder: SEARCH_PLACEHOLDER,
+    searchLabel: SEARCH_LABEL
   }
 };

@@ -9,7 +9,8 @@ import themeFile from "../resources/styles/TestTheme.scss";
 class MultiSearchBarTest extends Component {
   constructor(props) {
     super(props);
-
+    this.onHandleSearch = this.onHandleSearch.bind(this);
+    this.onSelectedChange = this.onSelectedChange.bind(this);
     this.state = {
       selected: [],
       options: OPTIONS_CONFIG,
@@ -42,6 +43,17 @@ class MultiSearchBarTest extends Component {
           handleSelectedChange={this.onSelectedChange}
           theme={themeFile}
           themeProps={themeProps}
+          messages={{
+            basicSearchLabel: "Basic",
+            advancedSearchLabel: "Advanced",
+            noAttrText: "No searchable attributes for selected entity types",
+            searchLabel: "Search",
+            searchPlaceholder: "Search...",
+            selectSomeItems: "Select Some Items...",
+            allItemsAreSelected: "All Items Are Selected",
+            selectAll: "Select All",
+            search: "Search"
+          }}
         />
         <h2>Searching text:</h2>
         {this.state.searched}
