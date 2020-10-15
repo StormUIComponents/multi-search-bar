@@ -61,7 +61,10 @@ export default class SearchBar extends Component {
       }
     );
 
-    const { searchPlaceholder, searchLabel } = this.props.messages;
+    const {
+      searchPlaceholder = SEARCH_PLACEHOLDER,
+      searchLabel = SEARCH_LABEL
+    } = this.props.messages;
     let { searchText } = this.state;
     let display = this.state.clearDisplay
       ? composedTheme.clearShow
@@ -109,8 +112,8 @@ SearchBar.propTypes = {
     prefix: PropTypes.string
   }),
   messages: PropTypes.shape({
-    searchPlaceholder: PropTypes.string.isRequired,
-    searchLabel: PropTypes.string.isRequired
+    searchPlaceholder: PropTypes.string,
+    searchLabel: PropTypes.string
   })
 };
 
@@ -119,9 +122,5 @@ SearchBar.defaultProps = {
   themeProps: {
     prefix: "multiSearchBar",
     compose: "merge"
-  },
-  messages: {
-    searchPlaceholder: SEARCH_PLACEHOLDER,
-    searchLabel: SEARCH_LABEL
   }
 };
