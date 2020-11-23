@@ -10,9 +10,13 @@ import buildThemingProps from "./ThemeUtils";
 import {
   BASIC,
   ADVANCED,
-  BASIC_SEARCH,
-  ADVANCED_SEARCH,
-  NO_SEARCH_ATTRS
+  BASIC_SEARCH_LABEL,
+  ADVANCED_SEARCH_LABEL,
+  NO_SEARCH_ATTRS,
+  SELECT_SOME_ITEMS,
+  ALL_ITEMS_ARE_SELECTED,
+  SELECT_ALL,
+  SEARCH
 } from "./constants";
 
 import multiSearchStyles from "../resources/styles/multiSearch.scss";
@@ -21,7 +25,9 @@ export default class MultiSearchBar extends Component {
   constructor(props) {
     super(props);
     this.toggleSearchType = this.toggleSearchType.bind(this);
-    let { defaultSearch, advancedSearch, basicSearch } = this.props;
+    this.onHandleSelectedChanged = this.onHandleSelectedChanged.bind(this);
+    this.onHandleSearch = this.onHandleSearch.bind(this);
+    let { defaultSearch, advancedSearch, basicSearch, messages } = this.props;
 
     if (
       (!defaultSearch || defaultSearch === BASIC) &&
@@ -32,13 +38,13 @@ export default class MultiSearchBar extends Component {
     ) {
       this.state = {
         selected: [],
-        label: BASIC_SEARCH.toggleLabel,
+        label: messages.advancedSearchLabel,
         type: BASIC
       };
     } else {
       this.state = {
         selected: [],
-        label: ADVANCED_SEARCH.toggleLabel,
+        label: messages.basicSearchLabel,
         type: ADVANCED
       };
     }
@@ -53,20 +59,25 @@ export default class MultiSearchBar extends Component {
     this.props.handleSelectedChange(selected);
   };
   toggleSearchType() {
+    const { basicSearchLabel, advancedSearchLabel } = this.props.messages;
     if (this.state.type === BASIC) {
       this.setState({
-        label: BASIC_SEARCH.label,
-        type: ADVANCED_SEARCH.type
+        label: basicSearchLabel,
+        type: ADVANCED
       });
     } else {
       this.setState({
-        label: ADVANCED_SEARCH.label,
-        type: BASIC_SEARCH.type
+        label: advancedSearchLabel,
+        type: BASIC
       });
     }
   }
   getSearchComponent(theme, themeProps, themeProperties) {
-    let { allowBlankBasicSearch, advancedSearchAttributes } = this.props;
+    let {
+      allowBlankBasicSearch,
+      advancedSearchAttributes,
+      messages
+    } = this.props;
     if (this.state.type === BASIC) {
       return (
         <SearchBar
@@ -74,6 +85,7 @@ export default class MultiSearchBar extends Component {
           allowBlankBasicSearch={allowBlankBasicSearch}
           theme={theme}
           themeProps={themeProps}
+          messages={messages}
         />
       );
     } else {
@@ -83,7 +95,7 @@ export default class MultiSearchBar extends Component {
           breakpoints={advancedSearchAttributes.breakpoints}
           primaryButtonText={advancedSearchAttributes.primaryButtonText}
           primaryButtonCallback={this.onHandleSearch}
-          noAttrText={NO_SEARCH_ATTRS}
+          noAttrText={messages.noAttrText}
           theme={theme}
           {...themeProperties}
         />
@@ -112,12 +124,24 @@ export default class MultiSearchBar extends Component {
 
   loadOptions() {
     let { options } = this.props;
+    const {
+      selectSomeItems,
+      allItemsAreSelected,
+      selectAll,
+      search
+    } = this.props.messages;
     if (options)
       return (
         <MultiSelect
           options={options}
           selected={this.state.selected}
           onSelectedChanged={this.onHandleSelectedChanged}
+          overrideStrings={{
+            selectSomeItems,
+            allItemsAreSelected,
+            selectAll,
+            search
+          }}
         />
       );
   }
@@ -171,6 +195,15 @@ MultiSearchBar.propTypes = {
   themeProps: PropTypes.shape({
     prefix: PropTypes.string,
     compose: PropTypes.string
+  }),
+  messages: PropTypes.shape({
+    basicSearchLabel: PropTypes.string.isRequired,
+    advancedSearchLabel: PropTypes.string.isRequired,
+    noAttrText: PropTypes.string.isRequired,
+    selectSomeItems: PropTypes.string.isRequired,
+    allItemsAreSelected: PropTypes.string.isRequired,
+    selectAll: PropTypes.string.isRequired,
+    search: PropTypes.string.isRequired
   })
 };
 
@@ -179,5 +212,14 @@ MultiSearchBar.defaultProps = {
   themeProps: {
     prefix: "multiSearchBar",
     compose: "merge"
+  },
+  messages: {
+    basicSearchLabel: BASIC_SEARCH_LABEL,
+    advancedSearchLabel: ADVANCED_SEARCH_LABEL,
+    noAttrText: NO_SEARCH_ATTRS,
+    selectSomeItems: SELECT_SOME_ITEMS,
+    allItemsAreSelected: ALL_ITEMS_ARE_SELECTED,
+    selectAll: SELECT_ALL,
+    search: SEARCH
   }
 };
